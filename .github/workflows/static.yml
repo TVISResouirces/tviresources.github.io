@@ -31,9 +31,14 @@ jobs:
 
       - name: Install dependencies
         run: |
-          gem install bundler
+          # Install Bundler version that matches Gemfile.lock to avoid version conflicts
+          gem install bundler -v 2.6.9 || true
+          ruby --version
+          gem --version
+          bundle --version || true
           if [ -f Gemfile ]; then
-            bundle install --jobs 4 --retry 3
+            bundle env || true
+            bundle install --jobs 4 --retry 3 --verbose
           fi
 
       - name: Build site with Jekyll
