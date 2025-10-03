@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
 gem 'jekyll', '~> 4.4'
-gem 'bundler', '~> 2.4'
 
 # Common plugins (optional, safe to include)
 gem 'jekyll-feed', '~> 0.16'
