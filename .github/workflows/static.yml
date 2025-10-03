@@ -46,6 +46,25 @@ jobs:
             jekyll build --destination _site
         fi
 
+      - name: Jekyll doctor (optional)
+        # Run jekyll doctor if available to surface common configuration issues
+        run: |
+          if command -v bundle >/dev/null 2>&1 && [ -f Gemfile ]; then
+            if bundle list | grep jekyll >/dev/null 2>&1; then
+              bundle exec jekyll doctor || true
+            fi
+          elif command -v jekyll >/dev/null 2>&1; then
+            jekyll doctor || true
+          fi
+
+      - name: Smoke test generated site
+        run: |
+          if [ ! -f _site/index.html ]; then
+            echo "ERROR: _site/index.html not found — aborting deployment" >&2
+            ls -la _site || true
+            exit 1
+          fi
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
