@@ -1,4 +1,9 @@
-# TVI Resources
+---
+layout: default
+title: TVI Resources
+description: Practical, open-source classroom resources for teachers of students who are blind or visually impaired.
+---
+
 
 ## Overview
 
