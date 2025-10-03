@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Math Worksheet Generator — TVI Resources</title>
+    <meta name="description" content="PowerShell TUI to generate printable math worksheets and convert them to BRF using liblouis (lou_translate)." />
+  <!-- Base site styling from Simple.css (un-minified CDN as requested) -->
+  <link rel="stylesheet" href="https://cdn.simplecss.org/simple.css">
+  <!-- Local stylesheet for project-specific overrides (loads after Simple.css) -->
+  <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="/">Home</a>
+        <!-- Reusable list of main sections for navigation -->
+<nav class="site-sections">
+  <ul>
+    <li><a href="/3dprints/">3D Prints</a></li>
+    <li><a href="/braille-utilities/">Braille utilities</a></li>
+    <li><a href="/data-collection/">Data collection</a></li>
+    <li><a href="/data-sheets/">Data sheets</a></li>
+    <li><a href="/tactile-graphics-utilities/">Tactile graphics utilities</a></li>
+    <li><a href="/useful-scripts/">Useful scripts</a></li>
+  </ul>
+</nav>
+
+      </nav>
+    </header>
+
+    <main>
+      <p>An interactive PowerShell TUI that generates math worksheets (addition, subtraction, mixed, multiplication) and converts them to Braille BRF files using liblouis (<code class="language-plaintext highlighter-rouge">lou_translate</code>). The script can produce individual BRF files for each worksheet or combine them into a single BRF file.</p>
+
+<h2 id="description">Description</h2>
+
+<p>This script produces plain-text worksheets and supports converting them to BRF using a local <code class="language-plaintext highlighter-rouge">lou_translate</code> binary and a Liblouis table (for example, <code class="language-plaintext highlighter-rouge">en-ueb-g2.ctb</code>). It is intended for educators who want quick, repeatable worksheet generation and accessible Braille output.</p>
+
+<p>Key features:</p>
+
+<ul>
+  <li>Generate batches of worksheets (configurable digits, worksheets count, problems per sheet)</li>
+  <li>Generate addition, subtraction, mixed add/subtract, or multiplication worksheets</li>
+  <li>Convert individual <code class="language-plaintext highlighter-rouge">.txt</code> worksheets to <code class="language-plaintext highlighter-rouge">.brf</code> using <code class="language-plaintext highlighter-rouge">lou_translate</code></li>
+  <li>Combine many worksheets into one BRF file with form-feed separators</li>
+  <li>Menu-driven TUI (no arguments required)</li>
+</ul>
+
+<h2 id="setup">Setup</h2>
+
+<p>Requirements:</p>
+
+<ul>
+  <li>Windows PowerShell (Windows 10/11 recommended) or PowerShell 7+</li>
+  <li>Liblouis with <code class="language-plaintext highlighter-rouge">lou_translate</code> (for BRF conversion)</li>
+  <li>The script expects a <code class="language-plaintext highlighter-rouge">lou_translate.exe</code> binary and a table file (for example <code class="language-plaintext highlighter-rouge">en-ueb-g2.ctb</code>).</li>
+</ul>
+
+<p>Install liblouis on Windows:</p>
+
+<ol>
+  <li>
+    <p>Download a Windows liblouis build and unpack it to a known location, for example:</p>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">C:\liblouis-&lt;version&gt;\bin\lou_translate.exe</code></li>
+      <li><code class="language-plaintext highlighter-rouge">C:\liblouis-&lt;version&gt;\share\liblouis\tables\en-ueb-g2.ctb</code></li>
+    </ul>
+  </li>
+  <li>
+    <p>Alternatively install liblouis via a package manager if available for your platform.</p>
+  </li>
+</ol>
+
+<p>PowerShell example (run from the folder containing the script):</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">powershell</span><span class="w"> </span><span class="nt">-ExecutionPolicy</span><span class="w"> </span><span class="nx">Bypass</span><span class="w"> </span><span class="nt">-File</span><span class="w"> </span><span class="o">.</span><span class="nx">\math_worksheet_tui.ps1</span><span class="w">
+</span></code></pre></div></div>
+
+<p>If you use a different path for <code class="language-plaintext highlighter-rouge">lou_translate.exe</code> or the table file, edit the variables at the top of the script:</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$louTranslatePath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"C:\liblouis-3.35.0-win64\bin\lou_translate.exe"</span><span class="w">
+</span><span class="nv">$tablePath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"C:\liblouis-3.35.0-win64\share\liblouis\tables\en-ueb-g2.ctb"</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Make sure <code class="language-plaintext highlighter-rouge">lou_translate</code> is either on your PATH or the full path above is correct. The script will attempt to find <code class="language-plaintext highlighter-rouge">lou_translate.exe</code> on PATH as a fallback.</p>
+
+<h2 id="use">Use</h2>
+
+<p>Run the script and use the interactive menu to:</p>
+
+<ul>
+  <li>Generate worksheets (choose operation and parameters)</li>
+  <li>Convert existing worksheets in the <code class="language-plaintext highlighter-rouge">math_worksheets</code> subfolder to BRF (individual or combined)</li>
+  <li>Generate-and-convert in a single flow</li>
+</ul>
+
+<p>Typical workflow:</p>
+
+<ol>
+  <li>Run the script from its directory:</li>
+</ol>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">.</span><span class="n">\math_worksheet_tui.ps1</span><span class="w">
+</span></code></pre></div></div>
+
+<ol>
+  <li>
+    <p>Choose an option from the menu:</p>
+
+    <ol>
+      <li>1–4: generate worksheets (select digits and count)</li>
+      <li>5: convert existing <code class="language-plaintext highlighter-rouge">.txt</code> worksheets to individual <code class="language-plaintext highlighter-rouge">.brf</code> files</li>
+      <li>6: combine existing <code class="language-plaintext highlighter-rouge">.txt</code> worksheets into a single BRF file</li>
+      <li>7–8: generate + convert in one step</li>
+      <li>9: exit</li>
+    </ol>
+  </li>
+  <li>
+    <p>Generated worksheets are placed in <code class="language-plaintext highlighter-rouge">math_worksheets</code> next to the script unless you move or rename the folder.</p>
+  </li>
+</ol>
+
+<h3 id="example-generate-25-two-digit-addition-worksheets">Example: Generate 25 two-digit addition worksheets</h3>
+
+<p>From the menu, choose <code class="language-plaintext highlighter-rouge">1</code> (Addition), then when prompted set digits <code class="language-plaintext highlighter-rouge">2</code> and number of worksheets <code class="language-plaintext highlighter-rouge">25</code>.</p>
+
+<h3 id="example-convert-generated-worksheets-to-a-combined-brf">Example: Convert generated worksheets to a combined BRF</h3>
+
+<p>From the menu, choose <code class="language-plaintext highlighter-rouge">6</code>, accept the default combined filename or provide your own.</p>
+
+<h2 id="configuration">Configuration</h2>
+
+<p>Configurable variables at the top of the script:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">$outputFolder</code> — folder where <code class="language-plaintext highlighter-rouge">.txt</code> worksheets are saved (default: <code class="language-plaintext highlighter-rouge">math_worksheets</code> next to the script)</li>
+  <li><code class="language-plaintext highlighter-rouge">$louTranslatePath</code> — path to <code class="language-plaintext highlighter-rouge">lou_translate.exe</code> (update to your installation)</li>
+  <li><code class="language-plaintext highlighter-rouge">$tablePath</code> — path to the Liblouis table file to use for translation (e.g., <code class="language-plaintext highlighter-rouge">en-ueb-g2.ctb</code>)</li>
+</ul>
+
+<p>Tip: If you install <code class="language-plaintext highlighter-rouge">lou_translate</code> and add it to your PATH, the script will detect it automatically.</p>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<ul>
+  <li>If conversion fails with “lou_translate not found”, confirm the path variables and that <code class="language-plaintext highlighter-rouge">lou_translate.exe</code> runs from a shell.</li>
+  <li>If native Liblouis tables fail, ensure you are using a UEB table (e.g. <code class="language-plaintext highlighter-rouge">en-ueb-g2.ctb</code>) and that the version of liblouis is compatible with your platform.</li>
+  <li>Conversion errors for specific files will be shown in the script output; re-run conversion after fixing the input files or table.</li>
+</ul>
+
+<h2 id="resource-download">Resource download</h2>
+
+<p>The link below will download a zipped file with the PowerShell script and a README.
+<a href="https://github.com/TVIResources/BrailleMathWorksheetGenerator/archive/refs/heads/main.zip" class="external">Download the PowerShell script</a></p>
+
+<h2 id="license--citation">License &amp; Citation</h2>
+
+<p>This script is provided under the Apache 2.0 license. Include attribution when reusing or redistributing.</p>
+
+    </main>
+
+    <footer>
+      <p>&copy; 2025 TVI Resources</p>
+    </footer>
+
+    <script src="/js/scripts.js"></script>
+  </body>
+</html>

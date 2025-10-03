@@ -13,6 +13,10 @@ We focus on low-cost, high-impact options: printable templates, 3D-printable tac
 
 ## Resources
 
+Here are the main sections — click a link to open the section page:
+
+{% include sections.html %}
+
 ## Why Open Source Resources?
 
 Open, shared resources make it easier for teachers to adapt, reuse, and improve classroom materials. We know many teachers can't afford specialized commercial equipment, so this collection prioritizes items you can print, build, or repurpose affordably.

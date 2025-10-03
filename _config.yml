@@ -1,0 +1,8 @@
+title: "TVI Resources"
+description: "Practical, open-source classroom resources for teachers of students who are blind or visually impaired."
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://tviresources.github.io"
+
+# Collections, plugins and other site settings can be added here.
+markdown: kramdown
+theme: null
