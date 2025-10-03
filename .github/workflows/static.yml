@@ -44,7 +44,7 @@ jobs:
           else
             gem install jekyll
             jekyll build --destination _site
-        fi
+          fi
 
       - name: Jekyll doctor (optional)
         # Run jekyll doctor if available to surface common configuration issues
