@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Contributing — TVI Resources</title>
+    <meta name="description" content="How to contribute resources to TVI Resources" />
+  <!-- Base site styling from Simple.css (un-minified CDN as requested) -->
+  <link rel="stylesheet" href="https://cdn.simplecss.org/simple.css">
+  <!-- Local stylesheet for project-specific overrides (loads after Simple.css) -->
+  <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="/">Home</a>
+      </nav>
+    </header>
+
+    <main>
+      <h1 id="contributing">Contributing</h1>
+
+<p>To add a new resource:</p>
+
+<ol>
+  <li>Create a folder under the repository root with a short, hyphenated name (e.g. <code class="language-plaintext highlighter-rouge">my-section</code>).</li>
+  <li>Copy <code class="language-plaintext highlighter-rouge">template.md</code> into that folder and rename it to <code class="language-plaintext highlighter-rouge">my-resource.md</code>.</li>
+  <li>Fill out Description, Use, and Resource download sections.</li>
+  <li>Edit the folder’s <code class="language-plaintext highlighter-rouge">index.md</code> to add a link to your new resource.</li>
+  <li>Commit and open a pull request.</li>
+</ol>
+
+<p>Using the automated helper</p>
+
+<p>There is a PowerShell helper script to add a resource and update the section index automatically.</p>
+
+<p>Usage (copy-paste):</p>
+
+<p>PowerShell (from the repository root):</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">.</span><span class="n">\n</span><span class="o">+</span><span class="nx">\scripts\add-resource.ps1</span><span class="w"> </span><span class="nt">-Section</span><span class="w"> </span><span class="nx">3dprints</span><span class="w"> </span><span class="nt">-ResourceName</span><span class="w"> </span><span class="nx">my-new-print</span><span class="w"> </span><span class="nt">-Title</span><span class="w"> </span><span class="s2">"My New Print"</span><span class="w"> </span><span class="nt">-DownloadUrl</span><span class="w"> </span><span class="s2">"https://example.com/my-print.stl"</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Notes:</p>
+
+<ul>
+  <li>Run the command from the repository root so the script can find <code class="language-plaintext highlighter-rouge">template.md</code> and section folders using relative paths.</li>
+  <li>If your Title contains special characters or spaces, wrap it in double quotes as shown.</li>
+  <li>The script will create the section folder if it doesn’t exist, create the resource file from <code class="language-plaintext highlighter-rouge">template.md</code>, replace the title, replace the download link, and insert the new link as the most recent item under <code class="language-plaintext highlighter-rouge">## Resources</code> (keeps only 5 items).</li>
+</ul>
+
+<p>After running the script verify the generated file and <code class="language-plaintext highlighter-rouge">index.md</code>, then commit the changes.</p>
+
+<p>Automatically fix front matter</p>
+
+<p>If some files still lack YAML front matter, you can run the helper script to add it to every markdown file (skips <code class="language-plaintext highlighter-rouge">template.md</code>):</p>
+
+<p>PowerShell (from repo root):</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">.</span><span class="n">\scripts\add-front-matter.ps1</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Site styling</p>
+
+<p>This site uses the Simple.css stylesheet via the official CDN (<a href="https://simplecss.org">https://simplecss.org</a>). A local stylesheet at <code class="language-plaintext highlighter-rouge">css/styles.css</code> is loaded after the CDN so contributors can add small, targeted overrides (colors, spacing, minor layout tweaks) in their resource pull requests. Avoid large rewrites of the base framework; prefer small, specific CSS rules scoped to the page or resource when possible.
+This will insert a basic front matter block using each file’s first heading or filename as the title. Review the results and commit.</p>
+
+    </main>
+
+    <footer>
+      <p>&copy; 2025 TVI Resources</p>
+    </footer>
+
+    <script src="/js/scripts.js"></script>
+  </body>
+</html>
